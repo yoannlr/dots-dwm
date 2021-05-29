@@ -1,5 +1,7 @@
+super + shift + Esc
+	pkill -SIGUSR1 sxhkd
 super + Return
-	alacritty
+	$TERMINAL
 super + p
 	dmenu_run
 super + l
@@ -7,3 +9,9 @@ super + l
 {XF86AudioRaiseVolume,XF86AudioLowerVolume}
 	pulsemixer --change-volume {+,-}5 ; \
 	kill -s RTMIN "$(cat ~/.cache/bar.pid)"
+super + w
+	$BROWSER
+super + shift + w
+	$PRIVATE_BROWSER
+super + a
+	arandr
