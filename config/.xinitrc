@@ -2,6 +2,9 @@ export BROWSER='LibreWolf-86.0-1.x86_64.AppImage'
 export PRIVATE_BROWSER='LibreWolf-86.0-1.x86_64.AppImage --private-window'
 export TERMINAL='alacritty'
 
+export WALLPAPERS="$HOME/pics/walls"
+export SCREENLAYOUTS="$HOME/.local/screenlayouts"
+
 setxkbmap fr
 xset dpms 0 0 300
 exec xss-lock --transfer-sleep-lock -- slock &

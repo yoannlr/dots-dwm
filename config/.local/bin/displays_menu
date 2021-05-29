@@ -1,0 +1,4 @@
+#!/bin/sh
+
+layout=$(ls $SCREENLAYOUTS | dmenu -p 'Select configuration')
+[ ! -z $layout ] && exec "${SCREENLAYOUTS}/${layout}" && xwallpaper --no-randr --zoom "$HOME/pics/walls/wall"

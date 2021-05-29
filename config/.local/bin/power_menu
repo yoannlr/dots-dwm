@@ -1,0 +1,21 @@
+#!/bin/sh
+action=$(echo -e 'Cancel\nQuit X\nPower off\nReboot\nSuspend' | dmenu -i -p 'Power options')
+
+[ -z "$action" ] && exit 0
+
+case $action in
+	'Power off')
+		poweroff
+	;;
+	'Reboot')
+		reboot
+	;;
+	'Suspend')
+		suspend
+	;;
+	'Quit X')
+		killall -u "$USER" --signal SIGTERM Xorg
+	;;
+	*)
+		exit 0
+esac

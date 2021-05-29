@@ -14,6 +14,12 @@ update_time() {
 update_bat() {
 	read -r bat_status < /sys/class/power_supply/BAT0/status
 	read -r bat_capacity < /sys/class/power_supply/BAT0/capacity
+	[ "${bat_status}" = "Charging" ] && rm "$HOME/.cache/batnotif"
+	[ ${bat_capacity} -lt 10 ] && [ ! -e "$HOME/.cache/batnotif" ] && [ ! "${bat_status}" = "Charging" ] && {
+		touch "$HOME/.cache/batnotif"
+		notify-send -u critical 'Battery low' 'Less than 10% remaining'
+		mpv "$HOME/.local/bin/lowbattery.m4a" &
+	}
 	battery="${bat_capacity}%$([ "${bat_status}" = "Charging" ] && printf ', Charging')"
 }
 
@@ -37,7 +43,7 @@ do
 	sleep 1 && wait && {
 		# update module each n seconds (sec % n)
 		[ $((sec % 5)) -eq 0 ] && update_time
-		[ $((sec % 20)) -eq 0 ] && update_bat
+		[ $((sec % 30)) -eq 0 ] && update_bat
 
 		# display updates at the same time of the most frequently updated module
 		[ $((sec % 5)) -eq 0 ] && display

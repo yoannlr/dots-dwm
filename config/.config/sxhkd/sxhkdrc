@@ -1,4 +1,4 @@
-super + shift + Esc
+super + shift + Escape
 	pkill -SIGUSR1 sxhkd
 super + Return
 	$TERMINAL
@@ -13,5 +13,25 @@ super + w
 	$BROWSER
 super + shift + w
 	$PRIVATE_BROWSER
-super + a
+super + shift + a
 	arandr
+super + e
+	emoji_menu
+super + u
+	unicode_menu
+super + shift + q
+	power_menu
+super + a
+	primary_menu
+super + alt + w
+	setwall
+super + shift + p
+	displays_menu
+Print
+	screenshot f &
+shift + Print
+	screenshot a &
+control + Print
+	screenshot fc &
+control + shift + Print
+	screenshot ac &
