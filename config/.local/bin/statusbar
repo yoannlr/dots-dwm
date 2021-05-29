@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# inspired from sbar (https://github.com/pystardust/sbar)
+
+# get bar pid from this file
+printf "$$" > "${HOME}/.cache/bar.pid"
+
+sec=0
+
+update_time() {
+	time="$(date '+%a %d, %H:%M')"
+}
+
+update_bat() {
+	read -r bat_status < /sys/class/power_supply/BAT0/status
+	read -r bat_capacity < /sys/class/power_supply/BAT0/capacity
+	battery="${bat_capacity}%$([ "${bat_status}" = "Charging" ] && printf ', Charging')"
+}
+
+update_volume() {
+	volume="$(pamixer --get-volume)%$([ "$(pamixer --get-mute)" = "true" ] && printf ', Mute')"
+}
+
+# modules that don't update on their own need to be run once at start to get their initial value
+update_volume
+
+display() {
+	xsetroot -name "Vol ${volume} | Bat ${battery} | ${time}"
+}
+
+# signals
+# trap "<function>; display" "<signal>"
+trap "update_volume; display" "RTMIN"
+
+while true
+do
+	sleep 1 && wait && {
+		# update module each n seconds (sec % n)
+		[ $((sec % 5)) -eq 0 ] && update_time
+		[ $((sec % 20)) -eq 0 ] && update_bat
+
+		# display updates at the same time of the most frequently updated module
+		[ $((sec % 5)) -eq 0 ] && display
+
+		sec=$((sec + 1))
+	}
+done

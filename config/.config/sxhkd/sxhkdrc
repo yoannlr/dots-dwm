@@ -1,0 +1,9 @@
+super + Return
+	alacritty
+super + p
+	dmenu_run
+super + l
+	slock
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	pulsemixer --change-volume {+,-}5 ; \
+	kill -s RTMIN "$(cat ~/.cache/bar.pid)"
